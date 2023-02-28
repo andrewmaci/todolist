@@ -55,14 +55,12 @@ app.get("/", function(req, res){
 
 });
 
-
-
 app.post("/",function(req, res){
     const newItem = new Item ({
         name:req.body.newValue
     })
     async function insertTask(){
-        await mongoose.connect("mongodb://127.0.0.1:27017/todolistDB")
+        await mongoose.connect("mongodb://127.0.0.1:27017/todolistDB");
         await newItem.save();
         await mongoose.connection.close();
     }
@@ -72,8 +70,16 @@ app.post("/",function(req, res){
    
 });
 
-app.get("/work",function(req,res){
-    res.render("list",{listTitle:"Work list", newTasks:workList})    
+app.post("/delete",function(req,res){
+    const id = req.body.checkboxValue;
+    async function removeTask(){
+        await mongoose.connect("mongodb://127.0.0.1:27017/todolistDB");
+        await Item.findByIdAndDelete(id)
+        await mongoose.connection.close();
+    }
+    removeTask().then(()=>{
+        res.redirect("/");
+    }).catch(err=>console.log(err));
 });
 
 app.get("/about",function(req,res){
