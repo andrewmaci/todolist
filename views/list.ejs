@@ -7,7 +7,7 @@
         <% newTasks.forEach(task => { %>
             <div class="item">
                 <input type="checkbox">
-                <p><%=task%></p>
+                <p><%=task.name%></p>
             </div>
         <% }) %>
         <form class="item" action="/" method="POST">
